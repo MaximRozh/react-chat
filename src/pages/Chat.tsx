@@ -45,6 +45,7 @@ const Chat = () => {
     },
     [currentRoom]
   );
+  console.log(User.userInfo?._id);
 
   return (
     <Grid container sx={{ position: "relative" }}>
@@ -63,7 +64,10 @@ const Chat = () => {
               <Divider />
               <Grid container spacing={1}>
                 <Grid xs={12} item>
-                  <MessagesList messages={chat.messages} user={User.userInfo} />
+                  <MessagesList
+                    messages={chat.messages}
+                    userId={User.userInfo?._id}
+                  />
                 </Grid>
                 <Grid xs={12} item>
                   <MessageForm onSubmit={handleSubmit} />

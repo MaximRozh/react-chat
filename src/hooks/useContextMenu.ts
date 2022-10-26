@@ -9,11 +9,12 @@ export const useContextMenu = () => {
   const handleContextMenu = React.useCallback(
     (event: any) => {
       event.preventDefault();
+      if (ref.current.contains(event.target)) {
+        const position = { x: event.pageX, y: event.pageY };
 
-      const position = { x: event.pageX, y: event.pageY };
-
-      setAnchorPoint(position);
-      setShow(true);
+        setAnchorPoint(position);
+        setShow(true);
+      }
     },
     [setAnchorPoint]
   );
