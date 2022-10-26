@@ -16,31 +16,29 @@ const MessageItem: React.FC<MessageItemProp> = ({
   time,
 }) => {
   return (
-    <>
-      <ListItem
+    <ListItem
+      sx={{
+        textAlign: `${myMessage ? "right" : "left"}`,
+        alignSelf: "flex-end",
+        justifyContent: `${myMessage ? "flex-end" : "flex-start"}`,
+      }}
+    >
+      <ListItemAvatar>
+        <Avatar alt="Remy Sharp" src={sender.picture || ""} />
+      </ListItemAvatar>
+      <ListItemText
         sx={{
-          textAlign: `${myMessage ? "right" : "left"}`,
-          alignSelf: "flex-end",
-          justifyContent: `${myMessage ? "flex-end" : "flex-start"}`,
+          flex: "none",
+          backgroundColor: `${myMessage ? "#e1f9d2" : "#eff6fd"}`,
+          padding: "0 10px",
+          borderRadius: "10px",
+          width: "auto",
         }}
-      >
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={sender.picture || ""} />
-        </ListItemAvatar>
-        <ListItemText
-          sx={{
-            flex: "none",
-            backgroundColor: `${myMessage ? "#e1f9d2" : "#eff6fd"}`,
-            padding: "0 10px",
-            borderRadius: "10px",
-            width: "auto",
-          }}
-          primary={content}
-          secondary={`${myMessage ? "You" : `${sender.fullName}`} at ${time}`}
-        />
-      </ListItem>
-    </>
+        primary={content}
+        secondary={`${myMessage ? "You" : `${sender.fullName}`} at ${time}`}
+      />
+    </ListItem>
   );
 };
 
-export default MessageItem;
+export default React.memo(MessageItem);
