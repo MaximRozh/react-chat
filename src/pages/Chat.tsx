@@ -45,7 +45,6 @@ const Chat = () => {
     },
     [currentRoom]
   );
-  console.log(User.userInfo?._id);
 
   return (
     <Grid container sx={{ position: "relative" }}>
