@@ -20,6 +20,7 @@ class Auth {
       this.userInfo = UserAdapter.userDtoToUser(data);
     });
   }
+
   logout(): void {
     this.userInfo = null;
     this.rooms = [];

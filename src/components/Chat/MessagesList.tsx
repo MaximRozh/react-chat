@@ -2,9 +2,15 @@ import React from "react";
 import { List, ListItem } from "@mui/material";
 import MessageListModel from "../../models/MessageListModel.model";
 import MessagesByDate from "./MessagesByDate";
+import { observer } from "mobx-react-lite";
 // import { useContextMenu } from "../../hooks/useContextMenu";
 
-const MessagesList: React.FC<any> = ({ messages, userId }) => {
+interface MessagesListProp {
+  messages: MessageListModel[];
+  userId: string | null;
+}
+
+const MessagesList: React.FC<MessagesListProp> = ({ messages, userId }) => {
   const messageEndRef = React.useRef(null) as any;
 
   // const { anchorPoint, show, ref } = useContextMenu();
@@ -16,6 +22,7 @@ const MessagesList: React.FC<any> = ({ messages, userId }) => {
   return (
     <>
       <List
+        // ref={ref}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -25,18 +32,13 @@ const MessagesList: React.FC<any> = ({ messages, userId }) => {
           "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {messages.map(
-          ({ _id: date, messagesByDate }: MessageListModel, idx: number) => {
-            return (
-              <MessagesByDate
-                key={date}
-                userId={userId}
-                messageDate={date}
-                messagesByDate={messagesByDate}
-              />
-            );
-          }
-        )}
+        {messages.map((byDate) => (
+          <MessagesByDate
+            key={byDate._id}
+            userId={userId}
+            dateMessages={byDate}
+          />
+        ))}
         <ListItem ref={messageEndRef} />
         {/* {show ? (
           <div
@@ -62,4 +64,4 @@ const MessagesList: React.FC<any> = ({ messages, userId }) => {
   );
 };
 
-export default React.memo(MessagesList);
+export default observer(MessagesList);

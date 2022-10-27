@@ -10,6 +10,8 @@ import {
   MessagesList,
   ChatSidebar,
 } from "../components/Chat";
+import socketService from "../services/socketService";
+import { MessageListDto } from "../models/dto/MessageList.dto";
 
 const Chat = () => {
   const [currentRoom, setCurrentRoom] = React.useState<string>("");
@@ -20,7 +22,7 @@ const Chat = () => {
 
       const time = getTime();
       const todayDate = getFormattedDate();
-      chat.sendMessage({
+      socketService.emit("message-room", {
         currentRoom,
         message,
         user: User.userInfo,
@@ -33,19 +35,21 @@ const Chat = () => {
 
   React.useEffect(() => {
     if (User.userInfo) {
+      socketService.on("room-messages", (roomMessages: MessageListDto[]) => {
+        chat.setMessages(roomMessages);
+      });
       User.getRooms();
-      chat.getMessages();
     }
   }, []);
 
   const join = React.useCallback(
-    (room: any) => {
-      chat.joinToRoom(room, currentRoom);
+    (room: string) => {
+      socketService.emit("join-room", room, currentRoom);
       setCurrentRoom(room);
     },
     [currentRoom]
   );
-
+  console.log(1);
   return (
     <Grid container sx={{ position: "relative" }}>
       <Grid item xs={3}>
@@ -65,7 +69,7 @@ const Chat = () => {
                 <Grid xs={12} item>
                   <MessagesList
                     messages={chat.messages}
-                    userId={User.userInfo?._id}
+                    userId={User.userInfo && User.userInfo._id}
                   />
                 </Grid>
                 <Grid xs={12} item>

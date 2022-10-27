@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import React from "react";
 
 interface ChatNameProp {
@@ -12,4 +13,4 @@ const ChatName: React.FC<ChatNameProp> = ({ roomName }) => {
   );
 };
 
-export default React.memo(ChatName);
+export default observer(ChatName);
